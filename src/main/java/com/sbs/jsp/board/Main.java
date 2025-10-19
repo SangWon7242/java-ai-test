@@ -1,20 +1,24 @@
 package com.sbs.jsp.board;
 
 import dev.langchain4j.exception.RateLimitException;
-import dev.langchain4j.model.openai.OpenAiChatModel;
+import dev.langchain4j.model.chat.ChatModel;
+import dev.langchain4j.model.googleai.GoogleAiGeminiChatModel;
+import io.github.cdimascio.dotenv.Dotenv;
 
 public class Main {
   public static void main(String[] args) {
-    String apiKey = System.getenv("");
+    Dotenv dotenv = Dotenv.load();
+    String apiKey = dotenv.get("GOOGLE_AI_API_KEY");
+    // "";
     if (apiKey == null || apiKey.isBlank()) {
       System.err.println("Please set OPENAI_API_KEY environment variable");
       return;
     }
 
     // ChatLanguageModel 생성
-    OpenAiChatModel model = OpenAiChatModel.builder()
+    ChatModel model = GoogleAiGeminiChatModel.builder()
         .apiKey(apiKey) // 인증키
-        .modelName("gpt-4o") // 사용할 모델
+        .modelName("gemini-2.5-flash") // 사용할 모델
         .temperature(0.7) // 모델의 출력 창의성 조절
         .build();
 
